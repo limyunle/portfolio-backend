@@ -1,6 +1,7 @@
 package github
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,5 +22,7 @@ func (h *Handler) GetRepos(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	log.Println("Successful call to github")
+	log.Printf("repos retrieved: %v", repos)
 	c.JSON(http.StatusOK, repos)
 }

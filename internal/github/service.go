@@ -34,9 +34,11 @@ func (s *service) GetRepos(username string) ([]Repo, error) {
 	defer resp.Body.Close()
 
 	body, _ := io.ReadAll(resp.Body)
+
 	var repos []Repo
 	if err := json.Unmarshal(body, &repos); err != nil {
 		return nil, fmt.Errorf("failed to parse repos: %w", err)
 	}
 	return repos, nil
+
 }
