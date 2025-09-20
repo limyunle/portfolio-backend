@@ -8,11 +8,11 @@ import (
 )
 
 type Stats struct {
-	TotalSolved  int `json:"totalSolved"`
-	EasySolved   int `json:"easySolved"`
-	MediumSolved int `json:"mediumSolved"`
-	HardSolved   int `json:"hardSolved"`
-	// add more fields if needed
+	TotalSolved        int            `json:"totalSolved"`
+	EasySolved         int            `json:"easySolved"`
+	MediumSolved       int            `json:"mediumSolved"`
+	HardSolved         int            `json:"hardSolved"`
+	SubmissionCalendar map[string]int `json:"submissionCalendar"`
 }
 
 type Service interface {
