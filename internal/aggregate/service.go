@@ -24,25 +24,35 @@ type CombinedStats struct {
 }
 
 func (s *Service) RefreshAndStore(username string) error {
-	repos, err := s.GitHubService.GetRepos(username)
+	startTotal := time.Now()
+	fmt.Println("Starting RefreshAndStore...")
+
+	start := time.Now()
+	githubRepos, err := s.GitHubService.GetRepos(username)
 	if err != nil {
 		return fmt.Errorf("github fetch failed: %w", err)
 	}
+	fmt.Printf("GitHub fetch took %s\n", time.Since(start))
 
-	stats, err := s.LeetCodeService.GetLeetCodeStats(username)
+	start = time.Now()
+	leetcodeStats, err := s.LeetCodeService.GetLeetCodeStats(username)
 	if err != nil {
 		return fmt.Errorf("leetcode fetch failed: %w", err)
 	}
+	fmt.Printf("LeetCode fetch took %s\n", time.Since(start))
 
-	agg := CombinedStats{
-		GitHubRepos:   repos,
-		LeetCodeStats: stats,
+	combinedStats := CombinedStats{
+		GitHubRepos:   githubRepos,
+		LeetCodeStats: leetcodeStats,
 		FetchedAt:     time.Now().UTC(),
 	}
 
-	if err := s.S3Service.UploadJSON(context.Background(), s.BucketName, "aggregate-stats.json", agg); err != nil {
+	start = time.Now()
+	if err := s.S3Service.UploadJSON(context.Background(), s.BucketName, "aggregate-stats.json", combinedStats); err != nil {
 		return fmt.Errorf("failed to upload to S3: %w", err)
 	}
+	fmt.Printf("S3 upload took %s\n", time.Since(start))
 
+	fmt.Printf("RefreshAndStore completed in total: %s\n", time.Since(startTotal))
 	return nil
 }
