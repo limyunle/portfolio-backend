@@ -15,9 +15,9 @@ func NewHandler(s Service) *Handler {
 	return &Handler{service: s}
 }
 
-func (h *Handler) GetStats(c *gin.Context) {
+func (h *Handler) GetLeetCodeStats(c *gin.Context) {
 	username := c.DefaultQuery("username", "limyunle")
-	repos, err := h.service.GetStats(username)
+	repos, err := h.service.GetLeetCodeStats(username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
