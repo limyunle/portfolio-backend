@@ -16,11 +16,17 @@ type AppConfig struct {
 	S3Bucket         string
 	S3Service        *s3.Client
 	RefreshFrequency int
+	Username         string
 }
 
 func LoadConfig() *AppConfig {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found, relying on environment variables")
+	}
+
+	username := os.Getenv("USERNAME")
+	if username == "" {
+		username = "limyunle"
 	}
 
 	portStr := os.Getenv("PORT")
@@ -48,5 +54,6 @@ func LoadConfig() *AppConfig {
 		Port:      port,
 		S3Bucket:  bucket,
 		S3Service: s3Client,
+		Username:  username,
 	}
 }

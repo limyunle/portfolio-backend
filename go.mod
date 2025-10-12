@@ -24,6 +24,7 @@ require (
 )
 
 require (
+	github.com/aws/aws-lambda-go v1.50.0
 	github.com/aws/aws-sdk-go-v2/config v1.31.12
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.88.3
 	github.com/bytedance/sonic v1.13.3 // indirect
