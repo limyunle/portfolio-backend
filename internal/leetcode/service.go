@@ -7,7 +7,9 @@ import (
 	"net/http"
 )
 
-type Stats struct {
+var httpGet = http.Get
+
+type LeetCodeStats struct {
 	TotalSolved        int            `json:"totalSolved"`
 	EasySolved         int            `json:"easySolved"`
 	MediumSolved       int            `json:"mediumSolved"`
@@ -16,7 +18,7 @@ type Stats struct {
 }
 
 type Service interface {
-	GetStats(username string) (*Stats, error)
+	GetLeetCodeStats(username string) (*LeetCodeStats, error)
 }
 
 type service struct{}
@@ -25,9 +27,9 @@ func NewService() Service {
 	return &service{}
 }
 
-func (s *service) GetStats(username string) (*Stats, error) {
+func (s *service) GetLeetCodeStats(username string) (*LeetCodeStats, error) {
 	url := fmt.Sprintf("https://leetcode-stats-api.herokuapp.com/%s", username)
-	resp, err := http.Get(url)
+	resp, err := httpGet(url)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch leetcode stats: %w", err)
 	}
@@ -35,7 +37,7 @@ func (s *service) GetStats(username string) (*Stats, error) {
 
 	body, _ := io.ReadAll(resp.Body)
 
-	var stats Stats
+	var stats LeetCodeStats
 	if err := json.Unmarshal(body, &stats); err != nil {
 		return nil, fmt.Errorf("failed to parse leetcode stats: %w", err)
 	}
