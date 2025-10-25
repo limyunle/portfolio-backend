@@ -56,5 +56,6 @@ func RegisterRoutes(r *gin.Engine, s3Client *s3.Service, bucketName string) {
 	aggregateRoutes := r.Group("/aggregate")
 	{
 		aggregateRoutes.GET("/refresh", aggregateHandler.Refresh)
+		aggregateRoutes.GET("/stats", aggregateHandler.ServeJSON)
 	}
 }

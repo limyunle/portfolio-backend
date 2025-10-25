@@ -56,3 +56,14 @@ func (s *Service) RefreshAndStore(username string) error {
 	fmt.Printf("RefreshAndStore completed in total: %s\n", time.Since(startTotal))
 	return nil
 }
+
+func (s *Service) GetFromS3(key string) (*CombinedStats, error) {
+	ctx := context.Background()
+
+	var stats CombinedStats
+	if err := s.S3Service.GetJSON(ctx, s.BucketName, key, &stats); err != nil {
+		return nil, fmt.Errorf("failed to fetch and decode from S3: %w", err)
+	}
+
+	return &stats, nil
+}
