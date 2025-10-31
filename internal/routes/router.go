@@ -9,9 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// for internal testing only
 func RegisterRoutes(r *gin.Engine, s3Client *s3.Service, bucketName string) {
 	// --------------------
-	// GitHub Routes, for internal testing only
+	// GitHub Routes
 	// --------------------
 	githubService := github.NewService()
 	githubHandler := github.NewHandler(githubService)
@@ -22,7 +23,7 @@ func RegisterRoutes(r *gin.Engine, s3Client *s3.Service, bucketName string) {
 	}
 
 	// --------------------
-	// LeetCode Routes, for internal testing only
+	// LeetCode Routes
 	// --------------------
 	leetcodeService := leetcode.NewService()
 	leetcodeHandler := leetcode.NewHandler(leetcodeService)
