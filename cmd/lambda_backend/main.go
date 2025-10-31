@@ -31,14 +31,35 @@ func init() {
 	log.Println("Backend Lambda initialized")
 }
 
+// for CORS
+func defaultHeaders() map[string]string {
+	return map[string]string{
+		"Content-Type":                 "application/json",
+		"Access-Control-Allow-Origin":  "https://limyunle.github.io",
+		"Access-Control-Allow-Methods": "GET,OPTIONS",
+		"Access-Control-Allow-Headers": "Content-Type",
+		"Access-Control-Max-Age":       "3600",
+	}
+}
+
 func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	start := time.Now()
 	log.Println("API request received")
 
-	if req.Path != "/aggregate/stats" {
+	if req.HTTPMethod == http.MethodOptions {
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusOK,
+			Headers:    defaultHeaders(),
+		}, nil
+	}
+
+	log.Printf("req.Path: %v", req.Path)
+	log.Printf("req.HTTPMethod: %v", req.HTTPMethod)
+	if req.Path != "/portfolio-backend-lambda/aggregate/stats" || req.HTTPMethod != http.MethodGet {
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusNotFound,
 			Body:       "Not Found",
+			Headers:    defaultHeaders(),
 		}, nil
 	}
 
@@ -48,6 +69,7 @@ func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
 			Body:       fmt.Sprintf("Error fetching data: %v", err),
+			Headers:    defaultHeaders(),
 		}, nil
 	}
 
@@ -57,6 +79,7 @@ func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
 			Body:       fmt.Sprintf("Error encoding response: %v", err),
+			Headers:    defaultHeaders(),
 		}, nil
 	}
 
@@ -64,7 +87,7 @@ func handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 	return events.APIGatewayProxyResponse{
 		StatusCode:      http.StatusOK,
 		Body:            string(respBody),
-		Headers:         map[string]string{"Content-Type": "application/json"},
+		Headers:         defaultHeaders(),
 		IsBase64Encoded: false,
 	}, nil
 }
