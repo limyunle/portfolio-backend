@@ -1,20 +1,20 @@
-# ☁️ Personal Portfolio — Backend (Go + AWS Lambda)
+# Personal Portfolio — Backend (Go + AWS Lambda)
 
 This repository contains the **serverless backend** for my personal developer portfolio website.  
 It’s written in **Go** and deployed on **AWS Lambda**, serving data to the frontend hosted on GitHub Pages.
 
-🧠 **Frontend Repo:** [Portfolio Frontend (React + TypeScript)](https://github.com/limyunle/portfolio-frontend)
+**Frontend Repo:** [Portfolio Frontend (React + TypeScript)](https://github.com/limyunle/portfolio-frontend)
 
 ---
 
-## 🧠 Overview
+## Overview
 
 The backend aggregates data from third-party APIs (GitHub and LeetCode), stores it in AWS S3, and serves it via API Gateway.  
 It follows a fully serverless design with daily data refresh via AWS EventBridge (cron).
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```text
 GitHub API + LeetCode API
