@@ -1,4 +1,3 @@
-````markdown
 # ☁️ Personal Portfolio — Backend (Go + AWS Lambda)
 
 This repository contains the **serverless backend** for my personal developer portfolio website.  
@@ -24,4 +23,3 @@ Lambda (Refresh job @ 3AM) → Aggregate data → Store in S3
         ↓
 Frontend API call → Lambda (Go handler) → Serve data from S3
 ```
-````
