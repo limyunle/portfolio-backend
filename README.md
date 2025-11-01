@@ -24,4 +24,4 @@ Lambda (Refresh job @ 3AM) → Aggregate data → Store in S3
 Frontend API call → Lambda (Go handler) → Serve data from S3
 ```
 
-![alt text](Portfolio_Architecture.drawio.png)
+![alt text](Portfolio_Architecture.png)
